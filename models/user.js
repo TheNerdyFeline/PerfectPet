@@ -1,9 +1,9 @@
 // used to encrypt password in database
 var bcrypt = require("bcrypt-nodejs");
 
+// create new user in table
 module.exports = function(sequelize, DataTypes) {
-  var user = sequelize.define("user", {
-    // Giving the Author model a name of type STRING
+  var User = sequelize.define("User", {
       username: {
 	  type: DataTypes.STRING,
 	  allowNull: false,
@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
       }, 
       email:  {
 	  type: DataTypes.STRING,
-	  allowNull: false
+	  allowNull: false,
 	  validate: {
 	      isEmail: true
 	  }
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
 	  allowNull: false
       }
   }, {
-      
+      // validates password
       instanceMethods: {
 	  validPassword: function(password) {
 	      return bcrypt.compareSync(password, this.password);
@@ -32,19 +32,20 @@ module.exports = function(sequelize, DataTypes) {
       
       classMethods: {
           associate: function(models) {
-              // Associating Author with Posts
-              // When an Author is deleted, also delete any associated Posts
-              user.hasMany(models.pets, {
+              // Associating user with pets
+              // When an user is deleted, also delete any associated pets
+              User.hasMany(models.pets, {
 		  onDelete: "cascade"
               });
           }
       },
+      // encrypts password before it is saved to db
       hooks: {
 	  beforeCreate: function(user, options, cb) {
-              user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+              User.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
               cb(null, options);
 	  }
       }
   });			     
-    return user;
+    return User;
 };
