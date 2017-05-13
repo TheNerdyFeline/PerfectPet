@@ -5,7 +5,7 @@ $("#message-submit").on("click", function(event) {
   var newMessage = {
     User: $("#user").val().trim(),
     body: $("#message-box").val().trim(),
-    created_at: moment().format("YYYY-MM-DD HH:mm:ss")
+    
   };
 
   console.log(newMessage);
@@ -17,9 +17,9 @@ $("#message-submit").on("click", function(event) {
       var row = $("<div>");
       row.addClass("message");
 
-      row.append("<p>" + newMessage.author + " messaged: </p>");
+      row.append("<p>" + newMessage.user + " messaged: </p>");
       row.append("<p>" + newMessage.body + "</p>");
-      row.append("<p>At " + moment(newMessage.created_at).format("h:mma on dddd") + "</p>");
+      
 
       $("#message-area").prepend(row);
 
@@ -38,11 +38,11 @@ $.get("/api/all", function(data) {
     for (var i = 0; i < data.length; i++) {
 
       var row = $("<div>");
-      row.addClass("chirp");
+      row.addClass("message");
 
-      row.append("<p>" + data[i].author + " messaged.. </p>");
+      row.append("<p>" + data[i].user + " messaged.. </p>");
       row.append("<p>" + data[i].body + "</p>");
-      row.append("<p>At " + moment(data[i].created_at).format("h:mma on dddd") + "</p>");
+      
 
       $("#message-area").prepend(row);
 
