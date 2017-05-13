@@ -1,9 +1,9 @@
-module.exports = function(seuqalize, dataTypes) {
-    var PetPic = sequalize.define("PetPic", {
+module.exports = function(sequelize, DataTypes) {
+    var PetPic = sequelize.define("PetPic", {
 	url: {
-	    type: dataTypes.STRING,
+	    type: DataTypes.STRING,
 	    allowNull: true
-	},
+	}, 
 	// needs upload pic col
 	classMethods: {
 	    associate: function(models) {
@@ -21,5 +21,5 @@ module.exports = function(seuqalize, dataTypes) {
 	    }
 	}
     });
-    return petPic;
+    return PetPic;
 };

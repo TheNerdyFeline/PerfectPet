@@ -3,9 +3,9 @@ var Sequelize = require("sequelize");
 var sequelize;
 
 if(process.env.JAWSDB_URL) {
-    sequelize = new Sequelize('process.env.JAWSDB_URL');
+    sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
-    sequelize = new Sequelize('database', 'root', 'pChrms1115', {
+    sequelize = new Sequelize('perfectpet_db', 'root', 'pChrms1115', {
 	host: 'localhost',
 	dialect: 'mysql',
 	
