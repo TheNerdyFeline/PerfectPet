@@ -6,8 +6,7 @@ var passport = require("../config/passport");
 
 // this is for current user to log-in
 router.get('/login', function(req, res){
-    res.render('login', {
-    });
+    res.render('login');
 });
 
 //this is the new pet form
@@ -17,20 +16,21 @@ router.get('/petreg', function(req,res) {
   });
 });
 
+// user signout
 router.get('/sign-out', function(req,res) {
   req.logout();
   res.redirect("/");
 });
 
 
-// login
+// login authenticate
 router.post('/login', passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
   res.json("/");
 });
 
 
-// register a user
+// register a new user
 router.post('/signup', function(req,res) {
 	db.User.findOne({
     where: {email: req.body.email}
@@ -56,7 +56,37 @@ router.post('/signup', function(req,res) {
 
 //register new pet
 router.post("/petreg", function(req, res) {
-    db.pets
+    db.Pets.create({
+	petName: req.body.name,
+	birthday: req.body.birthday
+	gender: req.body.gender
+	species: req.body.species
+	breed: req.body.breed
+    });
 });
+
+// current pet homepage
+// needs to default to first pet reg how?
+router.get("/:id", function(req, res) {
+    if(req.params.id === null) {
+	db.Pet.findOne({
+	    where: {}
+	})
+    } else {
+	db.Pet.findOne({
+	    where: {id: req.params.id}
+	}).then(function(results) {
+	    res.render("");
+	});
+    }
+});
+
+// main feed
+router.get("/mainFeed", function(req, res) {
+    res.render();
+});
+
+// update pet page
+
 
 module.exports = router;

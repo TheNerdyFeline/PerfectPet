@@ -22,6 +22,7 @@
 
 # Dump of table petpics
 # ------------------------------------------------------------
+Use perfectpet_db;
 
 DROP TABLE IF EXISTS `petpics`;
 
