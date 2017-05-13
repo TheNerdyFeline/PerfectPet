@@ -95,6 +95,8 @@ router.post("/petreg", function(req, res) {
 
 
 // update pet page
-
+router.post("/settings", function(req, res) {
+    
+});
 
 module.exports = router;
