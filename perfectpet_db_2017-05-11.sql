@@ -70,6 +70,16 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXIST 'post';
+
+CREATE TABLE 'post' (
+  'id' int(11) NOT NULL AUTO_INCREMENT,
+  'username' varchar (255) NOT NULL,
+  'petId' int(11) DEFAULT NULL,
+  'message' varchar (255) NOT NULL,
+  'date' TIMESTAMP NOT NULL DEFAULT CURRENT_DATE(),
+  PRIMARY KEY ('id')
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
