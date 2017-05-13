@@ -2,8 +2,8 @@ var mysql = require("mysql");
 var Sequelize = require("sequelize");
 var sequelize;
 
-if(process.env.JAWSDB_URL) {
-    sequelize = mysql.createConnection(process.env.JAWSDB_URL);
+if(true) {
+    sequelize = mysql.createConnection("te9wfawo5tw28q49:dm8qbmpnwynhhnff@hngomrlb3vfq3jcr.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/fpttmgc0i0212g2h");
 } else {
     sequelize = new Sequelize('perfectpet_db', 'root', 'pChrms1115', {
 	host: 'localhost',
