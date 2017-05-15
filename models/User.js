@@ -1,5 +1,5 @@
 // used to encrypt password in database
-var bcrypt = require("bcrypt-nodejs");
+var bcrypt = require("bcryptjs");
 
 // create new user in table
 module.exports = function(sequelize, DataTypes) {
