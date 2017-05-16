@@ -35,13 +35,6 @@ app.set("view engine", "handlebars");
 // Import routes and give the server access to them.
 require("./controllers/routes.js");
 
-db.sequelize.authenticate().then(function() {
-  console.log('Database connected and authenticated!');
-  return true;
-}).catch(function(err) {
-  console.error('Failed to connect and authenticate', err);
-  return false;
-});
 
 db.sequelize.sync({}).then(function() {
   app.listen(PORT, function() {
