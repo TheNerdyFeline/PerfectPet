@@ -1,5 +1,10 @@
 module.exports = function(sequelize, DataTypes) {
     var Pet = sequelize.define("Pet", {
+	id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+	},
 	petname: {
 	    type: DataTypes.STRING,
 	    allowNull: false,
@@ -9,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
 	},
 	birthday: {
 	    type: DataTypes.TEXT,
-	    allowNull: false,
+	    allowNull: true,
 	    validate: {
 		len: [1]
 	    }
@@ -30,28 +35,26 @@ module.exports = function(sequelize, DataTypes) {
 	},
 	breed: {
 	    type: DataTypes.TEXT,
-	    allowNull: false,
+	    allowNull: true,
 	    validate: {
 		len: [1]
 	    }
 	}
-	// needs profile pic
-    },
-    {
+    }, {
 	// We're saying that we want our user to have pets
 	classMethods: {
-            associate: function(models) {
+	    associate: function(model) {
 		// A foreignKey is required or a pet can't be made
-		Pet.belongsTo(models.User, {
+		Pet.belongsTo(model.User, {
 		    foreignKey: {
-		    allowNull: false
+			allowNull: false
 		    }
 		});
- 		Pet.hasMany(models.PetPics, {
-			onDelete: "cascade"
+ 		Pet.hasMany(model.PetPic, {
+		    onDelete: "cascade"
 		});
 		// need to check table name for posts
-		Pet.hasMany(models.Posts,  {
+		Pet.hasMany(model.Post,  {
 		    onDelete: "cascade"
 		});
 	    }
