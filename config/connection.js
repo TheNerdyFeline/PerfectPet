@@ -1,24 +1,32 @@
 var mysql = require("mysql");
-var connection;
+var Sequelize = require("sequelize");
+var sequelize;
 
 if(process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
+    sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
-    connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "",
-	database: "burgers_db"
+    sequelize = new Sequelize('perfectpet_db', 'root', 'pChrms1115', {
+	host: 'localhost',
+	dialect: 'mysql',
+	
+
+	pool: {
+	    max: 5,
+	    min: 0,
+	    idle: 10000
+	}
     });
 };
 
 
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
-});
+// Or you can simply use a connection uri
 
-module.exports = connection;
+
+sequelize
+  .authenticate()
+  .then(function(err) {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(function (err) {
+    console.log('Unable to connect to the database:', err);
+  });
