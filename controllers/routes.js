@@ -9,9 +9,9 @@ router.get("/", function(req , res) {
 });
 
 // current user to log-in page 
-router.get("/login", function(req, res){
+/*router.get("/login", function(req, res){
     res.render('login');
-});
+});*/
 
 // new user sign up page
 router.get("/newuser", function(req, res) {
