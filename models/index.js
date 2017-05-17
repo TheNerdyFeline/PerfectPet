@@ -5,11 +5,12 @@ var basename  = path.basename(module.filename);
 var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
+//var sequelize;
 
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
+    var sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+    sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
 fs
@@ -19,7 +20,7 @@ fs
   })
   .forEach(function(file) {
     var model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
+      db[model.name] = model;
   });
 
 Object.keys(db).forEach(function(modelName) {
@@ -30,5 +31,14 @@ Object.keys(db).forEach(function(modelName) {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.sequelize.authenticate().then(function() {
+  console.log('Database connected and authenticated!');
+  return true;
+}).catch(function(err) {
+  console.error('Failed to connect and authenticate', err);
+  return false;
+});
+
 
 module.exports = db;

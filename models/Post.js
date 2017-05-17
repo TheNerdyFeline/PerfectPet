@@ -20,12 +20,6 @@ module.exports = function(sequelize, DataTypes) {
     }, {
 	classMethods: {
 	    associate: function(model) {
-
-		Post.belongsTo(model.PetPic, {
-		    foreignKey: {
-			allowNull: false
-		    }
-		});
 		Post.belongsTo(model.Pet, {
 		    foreignKey: {
 			allowNull: false
