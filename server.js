@@ -5,7 +5,7 @@ var session = require("express-session");
 var passport = require("./config/passport.js");
 var PORT = process.env.PORT || 3000;
 var app = express();
-var db = ("../models");
+var db = require("./models");
 var stackTrace = require('stack-trace');
 var err = new Error('something went wrong');
 var trace = stackTrace.parse(err);
@@ -33,10 +33,11 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 // Import routes and give the server access to them.
-require("./controllers/routes.js");
+var routes = require("./controllers/routes.js");
 
+app.use('/', routes);
 
-db.sequelize.sync({}).then(function() {
+db.sequelize.sync({force: true}).then(function() {
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });

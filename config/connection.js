@@ -22,9 +22,7 @@ if(process.env.JAWSDB_URL) {
 // Or you can simply use a connection uri
 
 
-sequelize
-  .authenticate()
-  .then(function(err) {
+sequelize.authenticate().then(function(err) {
     console.log('Connection has been established successfully.');
   })
   .catch(function (err) {
