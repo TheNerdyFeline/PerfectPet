@@ -2,16 +2,12 @@ var db  = require('../models');
 var express = require('express');
 var router  = express.Router();
 var passport = require("../config/passport");
+var isAuthenticated = require("../config/middleware/isAuthenticated");
 
 // homepage load
 router.get("/", function(req , res) {
     res.render("index");
 });
-
-// current user to log-in page 
-/*router.get("/login", function(req, res){
-    res.render('login');
-});*/
 
 // new user sign up page
 router.get("/newuser", function(req, res) {
@@ -19,7 +15,7 @@ router.get("/newuser", function(req, res) {
 });
 
 //this is the new pet form page
-router.get("/petreg", function(req,res) {
+router.get("/newpet", function(req,res) {
 	res.render("newpet");
 });
 
@@ -30,24 +26,28 @@ router.get("/sign-out", function(req,res) {
 });
 
 // current pet homepage
-// needs to default to first pet reg how?
-router.get("/:id", function(req, res) {
-    if(req.params.id === null) {
-	db.Pet.findOne({
-	    where: {}
-	});
-    } else {
-	db.Pet.findOne({
-	    where: {id: req.params.id}
-	}).then(function(results) {
-	    res.render("profile");
-	});
-    }
+router.get("/:id", isAuthenticated, function(req, res) {
+    db.Pet.findAll({
+	where: {id: req.params.id}
+    }).then(function(results) {
+	var userAllPets = {userPets: results};
+	res.render("profile", userAllPets);
+    });
 });
 
 // main feed
-router.get("/mainFeed", function(req, res) {
+router.get("/mainFeed",  isAuthenticated, function(req, res) {
+    // get posts from db to load in feed
     res.render("feed");
+});
+
+router.get("/:id/settings",  isAuthenticated, function(req, res) {
+    db.User.findOne({
+	where: {id: req.params.id}
+    }).then(function(user){
+	var userInfo =  {userInfo: user};
+	res.render("settings", userInfo);
+    });
 });
 
 
@@ -67,7 +67,6 @@ router.post("/signup", function(req,res) {
       res.json({
         duplicateUser: true
       });
-    //At some point, make sure that only one user can be associated with an email.
     } else {
 	db.User.create({
             username: req.body.username,
@@ -83,7 +82,7 @@ router.post("/signup", function(req,res) {
 });
 
 //register new pet
-router.post("/petreg", function(req, res) {
+router.post("/petreg", isAuthenticated, function(req, res) {
     db.Pets.create({
 	petName: req.body.name,
 	birthday: req.body.birthday,
@@ -93,9 +92,21 @@ router.post("/petreg", function(req, res) {
     });
 });
 
+// create new post
+router.post(isAuthenticated, function(req, res) {
+    db.Post.create({
+	post: req.body.post
+    });
+});
+
 
 // update pet page
-router.post("/settings", function(req, res) {
+router.put("/:id/petupdate", isAuthenticated, function(req, res) {
+    
+});
+
+// update user info page
+router.put("/:id/settings", isAuthenticated, function(req, res) {
     
 });
 

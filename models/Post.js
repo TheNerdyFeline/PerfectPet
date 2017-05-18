@@ -5,14 +5,7 @@ module.exports = function(sequelize, DataTypes) {
             autoIncrement: true,
             primaryKey: true
 	},
-	title: {
-	    type: DataTypes.STRING,
-	    allowNull: false,
-	    validate: {
-		len: [1]
-	    }
-	},
-	body: {
+	post: {
 	    type: DataTypes.TEXT,
 	    allowNull: false,
 	    len: [1]

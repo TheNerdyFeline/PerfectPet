@@ -1,12 +1,7 @@
-(function($){
-  $(function(){
+$(document).ready(function() {   
+    $(".button-collapse").sideNav();
+    $("#login-modal").modal();
 
-    $('.button-collapse').sideNav();
-    $('.parallax').parallax();
-
-  }); // end of document ready
-})(jQuery); // end of jQuery name space
-
- $(document).ready(function() {
-    $('select').material_select();
-  });
+    // waiting to find what this does
+    $(".parallax").parallax();    
+}); // end of document ready
