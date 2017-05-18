@@ -9,13 +9,20 @@ module.exports = function(sequelize, DataTypes) {
             autoIncrement: true,
             primaryKey: true
 	},
-	username: {
+	first_name: {
 	    type: DataTypes.STRING,
 	    allowNull: false,
 	    validate: {
 		len: [3]
 	    }
-	}, 
+	},
+	last_name: {
+	    type: DataTypes.STRING
+	    allowNull: false,
+	    validate: {
+		len: [2]
+	    }
+	},
 	email:  {
 	    type: DataTypes.STRING,
 	    allowNull: false,

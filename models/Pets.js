@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
 	species: {
 	    type: DataTypes.TEXT,
 	    allowNull: false,
-	    validate: {
+  	    validate: {
 		len: [1]
 	    }
 	},
@@ -38,6 +38,13 @@ module.exports = function(sequelize, DataTypes) {
 	    allowNull: true,
 	    validate: {
 		len: [1]
+	    }
+	},
+	about: {
+	    type: DataTypes.TEXT,
+	    allowNull: false,
+	    validate: {
+		len:[10]
 	    }
 	}
     }, {

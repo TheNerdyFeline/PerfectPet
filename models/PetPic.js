@@ -9,9 +9,6 @@ module.exports = function(sequelize, DataTypes) {
 	    type: DataTypes.STRING,
 	    allowNull: true
 	}, 
-	image_id: {
-	    type: DataTypes.INTEGER
-	},
 	image_type: {
 	    type: DataTypes.STRING,
 	    allowNull: false

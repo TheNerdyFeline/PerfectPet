@@ -1,16 +1,22 @@
-<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-    {{> nav }}
-    {{> login-modal }}
-  
-  <div class="jumbotron">
-      <h1>New to Perfect Pet?</h1>
-      <p>Sign Up Below!</p>
-      <p><a class="btn btn-primary btn-lg" href="signup-signin.handlebars" role="button">Click Me</a></p>
-  </div>
-  
-  <!-- jQuery CDN -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+{{> nav }}
+{{> login }}
+<div id="index-banner teal" class="parallax-container">
+    <div class="section no-pad-bot">
+	<div class="container">
+            <br><br>
+            <h1 class="header center teal-text text-lighten-2">Perfect Pet</h1>
+            <div class="row center">
+		<h5 class="header col s12 light">New to Perfect Pet? Sign Up Below</h5>
+            </div>
+            <div class="row center">
+		<a href="/newuser" id="signup" class="btn-large waves-effect waves-light teal lighten-1">Sign Up Now!</a>
+		<a class="modal-trigger btn" href="#login-modal">Login</a>
+            </div>
+            <br><br>
 
-  <!-- Bootstrap Javascript CDN -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</div>
+    </div>
+    <div class="parallax"><img src="../img/pets.jpeg" alt="pets"></div>
+</div>
+
 
