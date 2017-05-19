@@ -14,38 +14,23 @@ module.exports = function(sequelize, DataTypes) {
 	},
 	birthday: {
 	    type: DataTypes.TEXT,
-	    allowNull: true,
-	    validate: {
-		len: [1]
-	    }
+	    allowNull: true
 	},
 	gender: {
 	    type: DataTypes.TEXT,
-	    allowNull: false,
-	    validate: {
-		len: [1]
-	    }
+	    allowNull: true
 	},
 	species: {
 	    type: DataTypes.TEXT,
-	    allowNull: false,
-  	    validate: {
-		len: [1]
-	    }
+	    allowNull: true
 	},
 	breed: {
 	    type: DataTypes.TEXT,
-	    allowNull: true,
-	    validate: {
-		len: [1]
-	    }
+	    allowNull: true
 	},
 	about: {
 	    type: DataTypes.TEXT,
-	    allowNull: false,
-	    validate: {
-		len:[10]
-	    }
+	    allowNull: true
 	},
 	image: {
 	    type: DataTypes.BLOB('long')

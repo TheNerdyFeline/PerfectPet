@@ -1,7 +1,7 @@
 <div class="card">
+    {{#each userPets}}
     <div class="card-tabs">
 	<ul class="tabs tabs-fixed-width">
-	    {{#each userPets}}
 	    <li class="tab"><a href="{{this.petame}}">{{this.petname}}</a></li>
 	</ul>
     </div> <!-- close card tabs -->
@@ -40,6 +40,7 @@
 	    </div>  <!-- stacked -->
 	</div> <!-- horizontal -->
     </div> <!-- pet div -->
+    {{/each}}
 </div> <!-- card -->
 
 

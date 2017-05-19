@@ -26,9 +26,9 @@ router.get("/sign-out", function(req,res) {
 });
 
 // current pet homepage
-router.get("/:id", isAuthenticated, function(req, res) {
+router.get("/pets/:id", isAuthenticated, function(req, res) {
     db.Pet.findAll({
-	where: {id: req.params.id}
+	where: {uuid: req.params.id}
     }).then(function(results) {
 	var userAllPets = {userPets: results};
 	res.render("profile", userAllPets);
@@ -36,13 +36,13 @@ router.get("/:id", isAuthenticated, function(req, res) {
 });
 
 // main feed
-router.get("/:id/mainFeed",  isAuthenticated, function(req, res) {
+router.get("//mainFeed/:id",  isAuthenticated, function(req, res) {
     // get posts from db to load in feed
     res.render("feed");
 });
 
 // load settings pages
-router.get("/:id/settings",  isAuthenticated, function(req, res) {
+router.get("/settings/:id",  isAuthenticated, function(req, res) {
     db.User.findOne({
 	where: {id: req.params.id}
     }).then(function(user){
@@ -56,14 +56,15 @@ router.get("/:id/settings",  isAuthenticated, function(req, res) {
 router.post("/login", passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
     console.log(req.user);
-    res.send('ok');
-   //  res.json("/:id");
+    var userId = (req.user.id);
+    //res.send('ok');
+    res.json("/pets/" + userId);
 });
 
 
 // register a new user
 router.post("/signup", function(req,res) {
-	db.User.findOne({
+    db.User.findOne({
     where: {email: req.body.email}
   }).then(function(results) {
     if (results !== null) {
@@ -72,12 +73,14 @@ router.post("/signup", function(req,res) {
       });
     } else {
 	db.User.create({
-            firstName: req.body.firstName,
-	    lastName: req.body.lastName,
+            first_name: req.body.firstname,
+	    last_name: req.body.lastname,
             email: req.body.email,
             password: req.body.password
-	}).then(function() {
-            res.send({redirect: "/newpet"});
+	}).then(function(newUser) {
+	    console.log(newUser.dataValues.id);
+	    var userId = (newUser.dataValues.id).toString();
+	    res.send(userId);
 	}).catch(function(err) {
             res.json(err);
 	});
@@ -86,16 +89,23 @@ router.post("/signup", function(req,res) {
 });
 
 //register new pet
-router.post("/:id/petreg", isAuthenticated, function(req, res) {
-    db.Pets.create({
-	petName: req.body.name,
+router.post("/petreg", isAuthenticated, function(req, res) {
+    console.log(req.body);
+    db.Pet.create({
+	petname: req.body.petname,
 	birthday: req.body.birthday,
 	gender: req.body.gender,
 	species: req.body.species,
-	breed: req.body.breed
+	breed: req.body.breed,
+	uuid: req.body.uuid
     }).then(function(newPet) {
+	console.log(newPet);
+	res.send('ok');
+	// var petId = newPet.uuid;
 	// loads profile page with new pet
-	res.json("/newPet.id");
+	// res.json("/pets/" + petId);
+    }).catch(function(err){
+	console.log(err);
     });
 });
 
