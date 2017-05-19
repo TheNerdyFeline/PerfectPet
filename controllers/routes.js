@@ -31,12 +31,13 @@ router.get("/pets/:id", isAuthenticated, function(req, res) {
 	where: {uuid: req.params.id}
     }).then(function(results) {
 	var userAllPets = {userPets: results};
+	console.log("findAll pets: " + results);
 	res.render("profile", userAllPets);
     });
 });
 
 // main feed
-router.get("//mainFeed/:id",  isAuthenticated, function(req, res) {
+router.get("/mainFeed/:id",  isAuthenticated, function(req, res) {
     // get posts from db to load in feed
     res.render("feed");
 });
@@ -55,8 +56,8 @@ router.get("/settings/:id",  isAuthenticated, function(req, res) {
 // login authenticate
 router.post("/login", passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
-    console.log(req.user);
     var userId = (req.user.id);
+    console.log("userId: " + userId);
     //res.send('ok');
     res.json("/pets/" + userId);
 });
@@ -78,7 +79,6 @@ router.post("/signup", function(req,res) {
             email: req.body.email,
             password: req.body.password
 	}).then(function(newUser) {
-	    console.log(newUser.dataValues.id);
 	    var userId = (newUser.dataValues.id).toString();
 	    res.send(userId);
 	}).catch(function(err) {
@@ -99,11 +99,9 @@ router.post("/petreg", isAuthenticated, function(req, res) {
 	breed: req.body.breed,
 	uuid: req.body.uuid
     }).then(function(newPet) {
-	console.log(newPet);
-	res.send('ok');
-	// var petId = newPet.uuid;
-	// loads profile page with new pet
-	// res.json("/pets/" + petId);
+	var petId = newPet.uuid;
+	//loads profile page with new pet
+	res.json("/pets/" + petId);
     }).catch(function(err){
 	console.log(err);
     });

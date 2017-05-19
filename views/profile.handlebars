@@ -1,9 +1,11 @@
+{{> nav}}
 <div class="card">
-    {{#each userPets}}
     <div class="card-tabs">
+	{{#each userPets}}
 	<ul class="tabs tabs-fixed-width">
 	    <li class="tab"><a href="{{this.petame}}">{{this.petname}}</a></li>
 	</ul>
+	{{/each}}
     </div> <!-- close card tabs -->
     {{#each this.userPets}}
     <div id="{{this.petname}}" class="col s12">
