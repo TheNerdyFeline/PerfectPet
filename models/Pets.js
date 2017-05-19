@@ -46,6 +46,9 @@ module.exports = function(sequelize, DataTypes) {
 	    validate: {
 		len:[10]
 	    }
+	},
+	image: {
+	    type: DataTypes.BLOB('long')
 	}
     }, {
 	// We're saying that we want our user to have pets
@@ -54,6 +57,7 @@ module.exports = function(sequelize, DataTypes) {
 		// A foreignKey is required or a pet can't be made
 		Pet.belongsTo(model.User, {
 		    foreignKey: {
+			name: "uuid",
 			allowNull: false
 		    }
 		});

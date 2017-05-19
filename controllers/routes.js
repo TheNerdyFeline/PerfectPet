@@ -36,11 +36,12 @@ router.get("/:id", isAuthenticated, function(req, res) {
 });
 
 // main feed
-router.get("/mainFeed",  isAuthenticated, function(req, res) {
+router.get("/:id/mainFeed",  isAuthenticated, function(req, res) {
     // get posts from db to load in feed
     res.render("feed");
 });
 
+// load settings pages
 router.get("/:id/settings",  isAuthenticated, function(req, res) {
     db.User.findOne({
 	where: {id: req.params.id}
@@ -54,7 +55,9 @@ router.get("/:id/settings",  isAuthenticated, function(req, res) {
 // login authenticate
 router.post("/login", passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
-  res.json("/:id");
+    console.log(req.user);
+    res.send('ok');
+   //  res.json("/:id");
 });
 
 
@@ -69,11 +72,12 @@ router.post("/signup", function(req,res) {
       });
     } else {
 	db.User.create({
-            username: req.body.username,
+            firstName: req.body.firstName,
+	    lastName: req.body.lastName,
             email: req.body.email,
             password: req.body.password
 	}).then(function() {
-            res.send({redirect: '/'});
+            res.send({redirect: "/newpet"});
 	}).catch(function(err) {
             res.json(err);
 	});
@@ -82,13 +86,16 @@ router.post("/signup", function(req,res) {
 });
 
 //register new pet
-router.post("/petreg", isAuthenticated, function(req, res) {
+router.post("/:id/petreg", isAuthenticated, function(req, res) {
     db.Pets.create({
 	petName: req.body.name,
 	birthday: req.body.birthday,
 	gender: req.body.gender,
 	species: req.body.species,
 	breed: req.body.breed
+    }).then(function(newPet) {
+	// loads profile page with new pet
+	res.json("/newPet.id");
     });
 });
 
