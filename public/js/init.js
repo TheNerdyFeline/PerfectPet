@@ -27,7 +27,7 @@ $(document).ready(function() {
     // grab new pet info from form on click
     $('#addpet').on('click', function(e){
 	console.log("add pet clicked");
-      document.querySelectorAll('input, select').forEach(function(el){
+      document.querySelectorAll('input, select, textarea').forEach(function(el){
         petObj[el.id] = el.value;
       });
 	petObj.uuid = sessionStorage.getItem('userId');
