@@ -11,7 +11,7 @@
 		<input type="file" id="pic">
 	    </div>
 	    <div class="file-path-wrapper">
-		<input class="file-path validate" type="text" id="pic">
+		<input value="{{this.image}}" class="file-path validate" type="text" id="pic">
 	    </div>
 	</div>
       </div>
@@ -43,3 +43,4 @@
 	  <a id="addpet" class="btn waves-effect waves-light" type="submit" name="action">Add New Pet!</a>
       </div>
 </div>
+{{/with}}

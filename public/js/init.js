@@ -69,6 +69,14 @@ $(document).ready(function() {
 	});
     });
 
+    $("#updateCurrPet").on("click", function() {
+	var petId = $(".pet").val();
+	console.log(petId);
+	$.get("/updatepet/" + petId, function() {
+	    window.location.href = "/updatepet/" + petId;
+	});
+    });
+
 
 	     
 

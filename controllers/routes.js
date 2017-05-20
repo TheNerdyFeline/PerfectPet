@@ -38,9 +38,14 @@ router.get("/pets/:id", isAuthenticated, function(req, res) {
 });
 
 // main feed
-router.get("/mainFeed/:id",  isAuthenticated, function(req, res) {
-    // get posts from db to load in feed
-    res.render("feed");
+router.get("/updatepet/:id",  isAuthenticated, function(req, res) {
+    // get pet from db to load in form
+    db.Pet.findOne({
+	where: {id: req.params.id}
+    }).then(function(results){
+	var currPet = {currPet: results};
+	res.render("updatePet", currPet);
+    });
 });
 
 // load settings pages
