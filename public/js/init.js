@@ -14,15 +14,23 @@ $(document).ready(function() {
     $('#signmeup').on('click', function(e){
       document.querySelectorAll('input, select').forEach(function(el){
         userObj[el.name] = el.value;
-      });
-	// post new user to db
-	$.post("/signup", userObj, function(response) {
-	    sessionStorage.setItem('userId', response);
-	    window.location.href = "/";
+      });x
+	if (!userObj.firstName || !userObj.lastName || !userObj.email || !userObj.password) {
+	    $("#empty").modal('open');
+	    console.log("empty fields");
+	} else if (duplicateUser) {
+	    console.log("email in use");
+	    $("inUse").modal('open');
+	} else {
+	    // post new user to db
+	    $.post("/signup", userObj, function(response) {
+		sessionStorage.setItem('userId', response);
+		window.location.href = "/";
 	    $("#login-modal").modal("open");
-	});
-	
+	    });
+	}	    
     });
+		     
     
     // grab new pet info from form on click
     $('#addpet').on('click', function(e){
@@ -57,9 +65,7 @@ $(document).ready(function() {
 	}).done(function() {
 	    console.log("User info updated");
 	    window.location.href = "/pets/" + userId; 
-	});
-	//$.post("/settings/" + userId, userObj, function() {
-	    
+	}); 
     });
 
     // sends petId to server to load current pet
@@ -70,14 +76,28 @@ $(document).ready(function() {
     });
 
     $("#updateCurrPet").on("click", function() {
-	var petId = $(".pet").val();
+	//var petId = $(".pet").val();
+	var petId = $(".pet").attr("value");
 	console.log(petId);
 	$.get("/updatepet/" + petId, function() {
 	    window.location.href = "/updatepet/" + petId;
 	});
     });
 
-
+    // update pet info
+    $("#updatePet").on("click", function() {
+	document.querySelectorAll('input, select, textarea').forEach(function(el){
+        petObj[el.id] = el.value;
+	});
+	$.ajax({
+	    method: "PUT",
+	    url: "/petupdate/" + userId,
+	    data: petObj
+	}).done(function() {
+	    console.log("User info updated");
+	    window.location.href = "/pets/" + userId; 
+	}); 
+    });
 	     
 
     

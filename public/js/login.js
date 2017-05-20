@@ -27,7 +27,12 @@ $(document).ready(function() {
       email: email,
       password: password
     }).then(function(data) {
-      window.location.replace(data);
+	var info = data.split("/");
+	var last = info.slice(-1);
+	console.log(info);
+	console.log(last);
+	sessionStorage.setItem('userId', last);
+	window.location.replace(data);
       // If there's an error, log the error
     }).catch(function(err) {
       console.log(err);

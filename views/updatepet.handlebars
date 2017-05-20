@@ -1,43 +1,48 @@
 {{#with currPet}}
 <div class="row">
-    <form class="col s6">
-      <div class="row">
-        <div class="input-field col sd12 l6">
-          <input value="{{this.petname}" id="petname" type="text" class="validate">
-          <label for="petname">Update Pet Name</label>
-        </div>
-	<div class="file-field input-field col s12 l6">
-	    <div class="btn">
-		<span>Update Profile Picture</span>
-		<input type="file">
-	    </div>
-	    <div class="file-path-wrapper">
-		<input class="file-path validate" type="text">
-	    </div>
+    <form class="col s12">
+	<div class="row">
+            <div class="input-field col sd12 l6">
+		<input value="{{this.petname}}" id="petname" type="text" class="validate">
+		<label for="petname">Update Pet Name</label>
+            </div> <!-- close inout field -->
+	    <div class="file-field input-field col s12 l6">
+		<div class="btn">
+		    <span>Update Profile Picture</span>
+		    <input type="file">
+		</div>
+		<div class="file-path-wrapper">
+		    <input class="file-path validate" type="text">
+		</div>
+	    </div> <!-- close file-field -->
+	</div> <!-- close row -->
+	<div class="row">
+            <div class="input-field col s6 l3">
+		<input value="{{this.birthday}}" id="birthday" type="text" class="validate">
+		<label for="birthday">Update Birthday</label>
+            </div>
+            <div class="input-field col s6 l3">
+		<input value="{{this.gender}}" id="gender" type="text" class="validate">
+		<label for="gender">Update Gender</label>
+            </div>
+	    <div class="input-field col s6 l3">
+		<input value="{{this.species}}" id="species" type="text" class="validate">
+		<label for="species">Update Species</label>
+            </div>
+	    <div class="input-field col s6 l3">
+		<input value="{{this.breed}}" id="breed" type="text" class="validate">
+		<label for="breed">Update Breed</label>
+            </div>
+	</div> <!-- row -->
+	<div class="row">
+	    <div class="input-field col s12">
+		<textarea value="{{this.about}}" id="about" class="materialize-textarea"></textarea>
+		<label for="about">Update About Pet</label>
+            </div>
 	</div>
-      </div>
-      <div class="row">
-          <div class="input-field col s6 l3">
-              <input placeholder="{{this.birthday}}" id="birthday" type="text" class="validate">
-              <label for="birthday">Update Birthday</label>
-          </div>
-          <div class="input-field col s6 l3">
-              <input placeholder="{{this.gender}}" id="gender" type="text" class="validate">
-              <label for="gender">Update Gender</label>
-          </div>
-	  <div class="input-field col s6 l3">
-              <input placeholder="{{this.species}}" id="species" type="text" class="validate">
-              <label for="species">Update Species</label>
-          </div>
-	  <div class="input-field col s6 l3">
-              <input placeholder="{{this.breed}}" id="breed" type="text" class="validate">
-              <label for="breed">Update Breed</label>
-          </div>
-      </div>
-      <div class="row">
-	  <div class="input-field col s12">
-              <textarea id="about" class="materialize-textarea"></textarea>
-              <label for="about">Update About Pet</label>
-          </div>
-      </div>
+	<div class="row center">
+            <a  id="updatePet" class="btn-large waves-effect waves-light teal lighten-1">Update Pet</a>
+        </div>
+    </form>
 </div>
+{{/with}}

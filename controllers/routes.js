@@ -37,14 +37,17 @@ router.get("/pets/:id", isAuthenticated, function(req, res) {
     });
 });
 
-// main feed
+// update pet page
 router.get("/updatepet/:id",  isAuthenticated, function(req, res) {
     // get pet from db to load in form
+    console.log(req.params);
     db.Pet.findOne({
 	where: {id: req.params.id}
     }).then(function(results){
 	var currPet = {currPet: results};
-	res.render("updatePet", currPet);
+	res.render("updatepet", currPet);
+    }).catch(function(err){
+	console.log(err);
     });
 });
 
@@ -102,6 +105,7 @@ router.post("/petreg", isAuthenticated, function(req, res) {
 	species: req.body.species,
 	breed: req.body.breed,
 	image: req.body.pic,
+	about: req.body.about,
 	uuid: req.body.uuid
     }).then(function(newPet) {
 	console.log("new pet made: " + newPet);
@@ -123,7 +127,23 @@ router.post(isAuthenticated, function(req, res) {
 
 // update pet page
 router.put("/petupdate/:id", isAuthenticated, function(req, res) {
-    
+	db.Pet.update({
+	    petname: req.body.petname,
+	    birthday: req.body.birthday,
+	    gender: req.body.gender,
+	    species: req.body.species,
+	    breed: req.body.breed,
+	    image: req.body.pic,
+	    about: req.body.about
+	}, {
+	    where: {id: req.params.id}
+	}).then(function(updateUser) {
+	    //userId = (updateUser.dataValues.id).toString();
+	    //res.send(userId);
+	    res.json("/pets/" + userId);
+	}).catch(function(err) {
+	    res.json(err);
+	});
 });
 
 // update user info page
