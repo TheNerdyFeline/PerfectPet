@@ -14,21 +14,13 @@ $(document).ready(function() {
     $('#signmeup').on('click', function(e){
       document.querySelectorAll('input, select').forEach(function(el){
         userObj[el.name] = el.value;
-      });x
-	if (!userObj.firstName || !userObj.lastName || !userObj.email || !userObj.password) {
-	    $("#empty").modal('open');
-	    console.log("empty fields");
-	} else if (duplicateUser) {
-	    console.log("email in use");
-	    $("inUse").modal('open');
-	} else {
-	    // post new user to db
-	    $.post("/signup", userObj, function(response) {
-		sessionStorage.setItem('userId', response);
-		window.location.href = "/";
+      });
+	// post new user to db
+	$.post("/signup", userObj, function(response) {
+	    sessionStorage.setItem('userId', response);
+	    window.location.href = "/";
 	    $("#login-modal").modal("open");
-	    });
-	}	    
+	});
     });
 		     
     
@@ -75,7 +67,7 @@ $(document).ready(function() {
 	});
     });
 
-    $("#updateCurrPet").on("click", function() {
+    $(".updateCurrPet").on("click", function() {
 	//var petId = $(".pet").val();
 	var petId = $(".pet").attr("value");
 	console.log(petId);
