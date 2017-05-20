@@ -34,6 +34,9 @@ module.exports = function(sequelize, DataTypes) {
 	},
 	image: {
 	    type: DataTypes.BLOB('long')
+	}, 
+	uuid: {
+	    type: DataTypes.INTEGER
 	}
     }, {
 	// We're saying that we want our user to have pets

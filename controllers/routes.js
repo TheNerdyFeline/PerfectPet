@@ -3,6 +3,7 @@ var express = require('express');
 var router  = express.Router();
 var passport = require("../config/passport");
 var isAuthenticated = require("../config/middleware/isAuthenticated");
+var userId;
 
 // homepage load
 router.get("/", function(req , res) {
@@ -30,8 +31,8 @@ router.get("/pets/:id", isAuthenticated, function(req, res) {
     db.Pet.findAll({
 	where: {uuid: req.params.id}
     }).then(function(results) {
+	console.log("pets: " + results);
 	var userAllPets = {userPets: results};
-	console.log("findAll pets: " + results);
 	res.render("profile", userAllPets);
     });
 });
@@ -43,7 +44,7 @@ router.get("/mainFeed/:id",  isAuthenticated, function(req, res) {
 });
 
 // load settings pages
-router.get("/settings/:id",  isAuthenticated, function(req, res) {
+router.get("/settings/:id", isAuthenticated, function(req, res) {
     db.User.findOne({
 	where: {id: req.params.id}
     }).then(function(user){
@@ -56,8 +57,7 @@ router.get("/settings/:id",  isAuthenticated, function(req, res) {
 // login authenticate
 router.post("/login", passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
-    var userId = (req.user.id);
-    console.log("userId: " + userId);
+    userId = (req.user.id);
     //res.send('ok');
     res.json("/pets/" + userId);
 });
@@ -79,7 +79,7 @@ router.post("/signup", function(req,res) {
             email: req.body.email,
             password: req.body.password
 	}).then(function(newUser) {
-	    var userId = (newUser.dataValues.id).toString();
+	    userId = (newUser.dataValues.id).toString();
 	    res.send(userId);
 	}).catch(function(err) {
             res.json(err);
@@ -90,20 +90,21 @@ router.post("/signup", function(req,res) {
 
 //register new pet
 router.post("/petreg", isAuthenticated, function(req, res) {
-    console.log(req.body);
     db.Pet.create({
 	petname: req.body.petname,
 	birthday: req.body.birthday,
 	gender: req.body.gender,
 	species: req.body.species,
 	breed: req.body.breed,
+	image: req.body.pic,
 	uuid: req.body.uuid
     }).then(function(newPet) {
-	var petId = newPet.uuid;
+	console.log("new pet made: " + newPet);
+	userId = newPet.uuid;
 	//loads profile page with new pet
-	res.json("/pets/" + petId);
+	res.json("/pets/" + userId);
     }).catch(function(err){
-	console.log(err);
+	res.json(err);
     });
 });
 
@@ -116,13 +117,25 @@ router.post(isAuthenticated, function(req, res) {
 
 
 // update pet page
-router.put("/:id/petupdate", isAuthenticated, function(req, res) {
+router.put("/petupdate/:id", isAuthenticated, function(req, res) {
     
 });
 
 // update user info page
-router.put("/:id/settings", isAuthenticated, function(req, res) {
-    
+router.put("/settings/:id", isAuthenticated, function(req, res) {
+	db.User.update({
+	    first_name: req.body.firstname,
+	    last_name: req.body.lastname,
+            email: req.body.email
+	}, {
+	    where: {id: req.params.id}
+	}).then(function(updateUser) {
+	    userId = (updateUser.dataValues.id).toString();
+	    res.send(userId);
+	    //res.json("/pets/" + userId);
+	}).catch(function(err) {
+	    res.json(err);
+	});
 });
 
 module.exports = router;
