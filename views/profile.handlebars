@@ -1,15 +1,17 @@
+<div class="row center">
 <div class="card">
     <div class="card-tabs">
+	{{#each userPets}}
 	<ul class="tabs tabs-fixed-width">
-	    {{#each userPets}}
 	    <li class="tab"><a href="{{this.petame}}">{{this.petname}}</a></li>
 	</ul>
+	{{/each}}
     </div> <!-- close card tabs -->
     {{#each this.userPets}}
-    <div id="{{this.petname}}" class="col s12">
+    <div value="{{this.id}}" class="pet" class="col s12">
 	<div class="card horizontal">
 	    <div class="card-image">
-		<img src="{{this.image}}" id="{{this.image_name}}" alt="{{this.petname}}">
+		<img src="{{this.image}}" id="{{this.petname}}" alt="{{this.petname}}">
 		<span class="card-title">{{this.petname}}</span>
 	    </div>
 	    <div class="card-stacked">
@@ -24,6 +26,7 @@
 				<th>Gender</th>
 				<th>Species</th>
 				<th>Breed</th>
+				<th>Update</th>
 			    </tr>
 			</thead>
 
@@ -33,6 +36,7 @@
 				<td>{{this.gender}}</td>
 				<td>{{this.species}}</td>
 				<td>{{this.breed}}</td>
+				<td><a  id="updateCurrPet" class="btn-floating btn waves-effect waves-light teal"><i class="material-icons">add</i></a></td>
 			    </tr>
 			</tbody>
 		    </table>
@@ -40,6 +44,8 @@
 	    </div>  <!-- stacked -->
 	</div> <!-- horizontal -->
     </div> <!-- pet div -->
+    {{/each}}
 </div> <!-- card -->
+</div> <!-- close row center -->
 
 

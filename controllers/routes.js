@@ -3,6 +3,7 @@ var express = require('express');
 var router  = express.Router();
 var passport = require("../config/passport");
 var isAuthenticated = require("../config/middleware/isAuthenticated");
+var userId;
 
 // homepage load
 router.get("/", function(req , res) {
@@ -26,22 +27,32 @@ router.get("/sign-out", function(req,res) {
 });
 
 // current pet homepage
-router.get("/:id", isAuthenticated, function(req, res) {
+router.get("/pets/:id", isAuthenticated, function(req, res) {
     db.Pet.findAll({
-	where: {id: req.params.id}
+	where: {uuid: req.params.id}
     }).then(function(results) {
+	console.log("pets: " + results);
 	var userAllPets = {userPets: results};
 	res.render("profile", userAllPets);
     });
 });
 
-// main feed
-router.get("/mainFeed",  isAuthenticated, function(req, res) {
-    // get posts from db to load in feed
-    res.render("feed");
+// update pet page
+router.get("/updatepet/:id",  isAuthenticated, function(req, res) {
+    // get pet from db to load in form
+    console.log(req.params);
+    db.Pet.findOne({
+	where: {id: req.params.id}
+    }).then(function(results){
+	var currPet = {currPet: results};
+	res.render("updatepet", currPet);
+    }).catch(function(err){
+	console.log(err);
+    });
 });
 
-router.get("/:id/settings",  isAuthenticated, function(req, res) {
+// load settings pages
+router.get("/settings/:id", isAuthenticated, function(req, res) {
     db.User.findOne({
 	where: {id: req.params.id}
     }).then(function(user){
@@ -54,13 +65,15 @@ router.get("/:id/settings",  isAuthenticated, function(req, res) {
 // login authenticate
 router.post("/login", passport.authenticate("local"), function(req, res) {
     // sending the user back the route to the members page because the redirect will happen on the front end
-  res.json("/:id");
+    userId = (req.user.id);
+    //res.send('ok');
+    res.json("/pets/" + userId);
 });
 
 
 // register a new user
 router.post("/signup", function(req,res) {
-	db.User.findOne({
+    db.User.findOne({
     where: {email: req.body.email}
   }).then(function(results) {
     if (results !== null) {
@@ -69,11 +82,13 @@ router.post("/signup", function(req,res) {
       });
     } else {
 	db.User.create({
-            username: req.body.username,
+            first_name: req.body.firstname,
+	    last_name: req.body.lastname,
             email: req.body.email,
             password: req.body.password
-	}).then(function() {
-            res.send({redirect: '/'});
+	}).then(function(newUser) {
+	    userId = (newUser.dataValues.id).toString();
+	    res.send(userId);
 	}).catch(function(err) {
             res.json(err);
 	});
@@ -83,12 +98,22 @@ router.post("/signup", function(req,res) {
 
 //register new pet
 router.post("/petreg", isAuthenticated, function(req, res) {
-    db.Pets.create({
-	petName: req.body.name,
+    db.Pet.create({
+	petname: req.body.petname,
 	birthday: req.body.birthday,
 	gender: req.body.gender,
 	species: req.body.species,
-	breed: req.body.breed
+	breed: req.body.breed,
+	image: req.body.pic,
+	about: req.body.about,
+	uuid: req.body.uuid
+    }).then(function(newPet) {
+	console.log("new pet made: " + newPet);
+	userId = newPet.uuid;
+	//loads profile page with new pet
+	res.json("/pets/" + userId);
+    }).catch(function(err){
+	res.json(err);
     });
 });
 
@@ -101,13 +126,41 @@ router.post(isAuthenticated, function(req, res) {
 
 
 // update pet page
-router.put("/:id/petupdate", isAuthenticated, function(req, res) {
-    
+router.put("/petupdate/:id", isAuthenticated, function(req, res) {
+	db.Pet.update({
+	    petname: req.body.petname,
+	    birthday: req.body.birthday,
+	    gender: req.body.gender,
+	    species: req.body.species,
+	    breed: req.body.breed,
+	    image: req.body.pic,
+	    about: req.body.about
+	}, {
+	    where: {id: req.params.id}
+	}).then(function(updateUser) {
+	    //userId = (updateUser.dataValues.id).toString();
+	    //res.send(userId);
+	    res.json("/pets/" + userId);
+	}).catch(function(err) {
+	    res.json(err);
+	});
 });
 
 // update user info page
-router.put("/:id/settings", isAuthenticated, function(req, res) {
-    
+router.put("/settings/:id", isAuthenticated, function(req, res) {
+	db.User.update({
+	    first_name: req.body.firstname,
+	    last_name: req.body.lastname,
+            email: req.body.email
+	}, {
+	    where: {id: req.params.id}
+	}).then(function(updateUser) {
+	    userId = (updateUser.dataValues.id).toString();
+	    res.send(userId);
+	    //res.json("/pets/" + userId);
+	}).catch(function(err) {
+	    res.json(err);
+	});
 });
 
 module.exports = router;

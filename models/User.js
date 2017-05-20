@@ -17,7 +17,7 @@ module.exports = function(sequelize, DataTypes) {
 	    }
 	},
 	last_name: {
-	    type: DataTypes.STRING
+	    type: DataTypes.STRING,
 	    allowNull: false,
 	    validate: {
 		len: [2]
@@ -28,20 +28,13 @@ module.exports = function(sequelize, DataTypes) {
 	    allowNull: false,
 	    validate: {
 		isEmail: true
-	  }
+	    }
 	},
 	password: {
 	    type: DataTypes.STRING,
 	    allowNull: false
 	}
-    }, {
-	// validates password
-	instanceMethods: {
-	    validPassword: function(password) {
-	      return bcrypt.compareSync(password, this.password);
-	  }
-	},
-      
+    }, {      
 	classMethods: {
             associate: function(model) {
 		// Associating user with pets
@@ -50,14 +43,20 @@ module.exports = function(sequelize, DataTypes) {
 		    onDelete: "cascade"
 		});
             }
-      },
+	}, 
+	// validates password
+	instanceMethods: {
+	    validPassword: function(password) {
+		return bcrypt.compareSync(password, this.password);
+	    }
+	},
 	// encrypts password before it is saved to db
 	hooks: {
 	    beforeCreate: function(user, options, cb) {
-		User.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
-              cb(null, options);
-	  }
+		user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(10), null);
+		cb(null, options);
+	    }
 	}
-  });			     
+    });			     
     return User;
 };

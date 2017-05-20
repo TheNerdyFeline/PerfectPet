@@ -1,4 +1,3 @@
-{{> nav}}
 <div class="row">
     <form class="col s6">
       <div class="row">
@@ -9,10 +8,10 @@
 	<div class="file-field input-field col s12 l6">
 	    <div class="btn">
 		<span>Profile Picture</span>
-		<input type="file">
+		<input type="file" id="pic">
 	    </div>
 	    <div class="file-path-wrapper">
-		<input class="file-path validate" type="text">
+		<input value="{{this.image}}" class="file-path validate" type="text" id="pic">
 	    </div>
 	</div>
       </div>
@@ -40,4 +39,8 @@
               <label for="about">About Pet</label>
           </div>
       </div>
+      <div class="row center">
+	  <a id="addpet" class="btn waves-effect waves-light" type="submit" name="action">Add New Pet!</a>
+      </div>
 </div>
+{{/with}}

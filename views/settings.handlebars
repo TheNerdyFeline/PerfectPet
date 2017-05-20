@@ -1,34 +1,29 @@
-{{> nav }}
-{{this.userInfo}}
+{{#with userInfo}}
 <div class="row">
-    <form class="col s12">
+    <form method="" class="col s12">
 	<div class="row">
             <div class="input-field col s6">
-		<input placeholder="{{this.first_name}}" id="first_name" type="text" class="validate">
+		<input value="{{this.first_name}}" id="firstname" type="text" class="validate">
 		<label for="first_name">First Name</label>
             </div>
             <div class="input-field col s6">
-		<input placeholder="{{this.last_name}}" id="last_name" type="text" class="validate">
+		<input value="{{this.last_name}}" id="lastname" type="text" class="validate">
 		<label for="last_name">Last Name</label>
             </div>
 	</div>
 	<div class="row">
 	    <div class="input-field col s6">
-		<input placeholder="{{this.email}}" id="email" type="email" class="validate">
+		<input value="{{this.email}}" id="email" type="email" class="validate">
 		<label for="email">Email</label>
-	    </div>
-	    <div class="input-field col s6">
-		<input placeholder="" id="password" type="password" class="validate">
-		<label for="password">Password</label>
 	    </div>
 	</div>
 	<div class="row center">
-            <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Update User Info!</a>
+            <a  id="updateUser" class="btn-large waves-effect waves-light teal lighten-1">Update User Info!</a>
         </div>
 	<div class="row center">
-            <a href="#" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">DELETE ACCOUNT!</a>
+            <a id="delete" class="btn-large waves-effect waves-light teal lighten-1">DELETE ACCOUNT!</a>
         </div>
     </form>
 </div> <!-- close outter row -->
-
+{{/with}}
 

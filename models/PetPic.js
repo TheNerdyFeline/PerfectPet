@@ -8,32 +8,24 @@ module.exports = function(sequelize, DataTypes) {
 	url: {
 	    type: DataTypes.STRING,
 	    allowNull: true
-	}, 
-	image_type: {
-	    type: DataTypes.STRING,
-	    allowNull: false
 	},
 	image: {
-	    type: DataTypes.BLOB('long')
-	},
-	image_size: {
-	    type: DataTypes.INTEGER
-	},
-	image_name: {
-	    type: DataTypes.STRING
-	    }
+	    type: DataTypes.BLOB('long'),
+	    allownull: true
+	}
     }, {
-	// needs upload pic col
 	classMethods: {
-	    associate: function(model) {
-		PetPic.belongsTo(model.Pet, {
+	    associate: function(models) {
+		PetPic.belongsTo(models.Pet, {
 		    foreignKey: {
+			name: "petfk",
 			allowNull: false
 		    }
 		});
 		// need to check table name for posts
-		PetPic.belongsTo(model.Post, {
-		   foreignKey: {
+		PetPic.belongsTo(models.Post, {
+		    foreignKey: {
+			name: "postfk",
 			allowNull: false
 		    }
 		});
